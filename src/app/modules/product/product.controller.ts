@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ProductServices } from "./product.serviece";
-import { productSchema } from "./product.zodValidatioin";
+import { productSchema } from "../product.zodValidatioin";
 
 const createProduct = async (req: Request, res: Response) => {
     try {
@@ -59,7 +59,7 @@ const getProductById = async (req: Request, res: Response) => {
 const updateProductById = async (req: Request, res: Response) => {
     try {
         const { productId } = req.params;
-        const result = await ProductServices.updateProduct(productId,req.body)
+        const result = await ProductServices.updateProduct(productId, req.body)
         res.status(200).json({
             success: true,
             message: "Product updated successfully!",
@@ -96,17 +96,18 @@ const deleteProductById = async (req: Request, res: Response) => {
 const findProducts = async (req: Request, res: Response) => {
     try {
         const searchTerm = req.query.searchTerm;
+        console.log(searchTerm);
         const result = await ProductServices.findProduct(searchTerm as string)
         res.status(200).json({
             success: true,
-            message: "Product deleted successfully!",
+            message: `"Products matching search term '${searchTerm}' fetched successfully!"`,
             data: result,
         })
 
     } catch (err) {
         res.status(500).json({
             success: false,
-            message: 'failed to delete product',
+            message: 'failed to load matched product',
             error: err,
         })
     }
@@ -117,5 +118,6 @@ export const ProductControllers = {
     getAllProduct,
     getProductById,
     updateProductById,
-    deleteProductById
+    deleteProductById,
+    findProducts,
 }

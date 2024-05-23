@@ -9,8 +9,11 @@ router.get("/products", ProductControllers.getAllProduct);
 
 router.get("/products/:productId", ProductControllers.getProductById);
 
-router.put("/products/:productId",ProductControllers.updateProductById)
+router.put("/products/:productId", ProductControllers.updateProductById)
 
-router.delete("/products/:productId",ProductControllers.deleteProductById)
+router.delete("/products/:productId", ProductControllers.deleteProductById)
+
+router.get("/products?searchTerm = iPhone", ProductControllers.deleteProductById)
+
 
 export const ProductRoutes = router;
