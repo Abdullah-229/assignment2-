@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { ProductServices } from "./product.serviece";
-import { productSchema } from "../product.zodValidatioin";
+import { ProductServices } from "./product.service";
+import { productSchema } from "./product.zodValidation";
 
 const createProduct = async (req: Request, res: Response) => {
     try {
@@ -21,9 +21,10 @@ const createProduct = async (req: Request, res: Response) => {
     }
 }
 
-const getAllProduct = async (req: Request, res: Response) => {
+const getProduct = async (req: Request, res: Response) => {
     try {
-        const result = await ProductServices.getAllProductsFromDB();
+        const { searchTerm } = req.query;
+        const result = await ProductServices.getProductsFromDB(searchTerm as string);
         res.status(200).json({
             success: true,
             message: 'product retrieved successfully',
@@ -93,31 +94,11 @@ const deleteProductById = async (req: Request, res: Response) => {
         })
     }
 }
-const findProducts = async (req: Request, res: Response) => {
-    try {
-        const searchTerm = req.query.searchTerm;
-        console.log(searchTerm);
-        const result = await ProductServices.findProduct(searchTerm as string)
-        res.status(200).json({
-            success: true,
-            message: `"Products matching search term '${searchTerm}' fetched successfully!"`,
-            data: result,
-        })
-
-    } catch (err) {
-        res.status(500).json({
-            success: false,
-            message: 'failed to load matched product',
-            error: err,
-        })
-    }
-}
 
 export const ProductControllers = {
     createProduct,
-    getAllProduct,
+    getProduct,
     getProductById,
     updateProductById,
     deleteProductById,
-    findProducts,
 }

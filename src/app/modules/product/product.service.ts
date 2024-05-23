@@ -6,11 +6,6 @@ const createProductInDB = async (product: Product) => {
     return result;
 }
 
-const getAllProductsFromDB = async () => {
-    const result = await productModel.find();
-    return result;
-}
-
 const getSingleProductFormDB = async (_id: string) => {
     const result = await productModel.findOne({ _id })
     return result;
@@ -28,28 +23,34 @@ const deleteProduct = async (_id: string) => {
     return result;
 }
 
-const findProduct = async (searchTerm: string) => {
-    const regex = new RegExp(searchTerm, 'i'); //i is used to make it case insensitive
-    const products = await productModel.aggregate([
-        {
-            $match: {
-                $or: [
-                    { name: { $regex: regex } },
-                    { description: { $regex: regex } },
-                    { tags: { $regex: regex } }
-                ]
+const getProductsFromDB = async (searchTerm: string) => {
+    if(searchTerm){
+        const regex = new RegExp(searchTerm, 'i'); //i is used to make it case insensitive
+        const products = await productModel.aggregate([
+            {
+                $match: {
+                    $or: [
+                        { name: { $regex: regex } },
+                        { description: { $regex: regex } },
+                        { tags: { $regex: regex } }
+                    ]
+                }
             }
-        }
-    ]);
-    return products;
+        ]);
+        return products;
+    }
+    else{
+        const products = await productModel.find();
+        return products;
+        
+    }
 }
 
 
 export const ProductServices = {
     createProductInDB,
-    getAllProductsFromDB,
+    getProductsFromDB,
     getSingleProductFormDB,
     updateProduct,
     deleteProduct,
-    findProduct
 }
