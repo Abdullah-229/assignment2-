@@ -1,7 +1,25 @@
+import productModel from "../product/product.model";
 import orderModel from "./Order.model";
 import { Order } from "./order.interface";
 
 const createOrder = async (order: Order) => {
+    const product = await productModel.findById(order.productId)
+    if (!product) {
+        return "Product not found";
+    }
+
+    if (order.quantity > product.inventory.quantity) {
+        return "Insufficient stock";
+    }
+
+    // inventory quantity and inStock status calculation
+    product.inventory.quantity -= order.quantity;
+    if (product.inventory.quantity <= 0) {
+        product.inventory.inStock = false;
+    } else {
+        product.inventory.inStock = true;
+    }
+
     const result = await orderModel.create(order);
     return result;
 }
