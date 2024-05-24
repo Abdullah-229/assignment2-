@@ -19,7 +19,11 @@ This command will install all the dev dependencies for the application.
 
 ***
 Deployment of this live server can be found Here:
-[EcommerceBackendApi](assignment2-three-rosy.vercel.app "Ecommerce Backend Api")
+[Ecommerce Backend Api](assignment2-three-rosy.vercel.app)
+
+If not found:
+
+Link: assignment2-three-rosy.vercel.app
 
 ***
 Additional: For development purpose there are some more commands written in the script section of package.json file. Format:
