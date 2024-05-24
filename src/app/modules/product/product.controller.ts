@@ -9,7 +9,7 @@ const createProduct = async (req: Request, res: Response) => {
     const result = await ProductServices.createProductInDB(productData);
     res.status(200).json({
       success: true,
-      message: "product created successfully",
+      message: "Product created successfully!",
       data: result,
     });
   } catch (err) {
@@ -29,13 +29,13 @@ const getProduct = async (req: Request, res: Response) => {
     );
     res.status(200).json({
       success: true,
-      message: "product retrieved successfully",
+      message: "Products fetched successfully!",
       data: result,
     });
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: "failed to get product",
+      message: "failed to fetch products",
       error: err,
     });
   }
@@ -53,7 +53,7 @@ const getProductById = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: "failed to get product",
+      message: "failed to fetch product",
       error: err,
     });
   }

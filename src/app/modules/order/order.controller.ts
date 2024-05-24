@@ -6,11 +6,12 @@ const createOrder = async (req: Request, res: Response) => {
   try {
     const order = req.body;
     const orderData = orderSchema.parse(order);
-    const result = await OrderServices.createOrder(orderData);
+    const { success, message, data } =
+      await OrderServices.createOrder(orderData);
     res.status(200).json({
-      success: true,
-      message: "Order created successfully!",
-      data: result,
+      success: success,
+      message: message,
+      data: data,
     });
   } catch (err) {
     res.status(500).json({
@@ -23,17 +24,16 @@ const createOrder = async (req: Request, res: Response) => {
 const getOrders = async (req: Request, res: Response) => {
   try {
     const { email } = req.query;
-    console.log(email);
     const result = await OrderServices.getOrderFromDB(email as string);
     res.status(200).json({
       success: true,
-      message: "Order placed successfully!",
+      message: "Order get successfully!",
       data: result,
     });
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: "failed to place order",
+      message: "failed to get order",
       error: err,
     });
   }
